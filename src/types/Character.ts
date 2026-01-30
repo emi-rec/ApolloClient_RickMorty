@@ -4,4 +4,5 @@ export interface Character {
   gender: string;
   image: string;
   episode?: { name: string; episode: string }[];
+  characters?: { name: string }[];
 }

@@ -1,23 +1,20 @@
 import { useState } from "react";
-import { Container, Header, Card, Loader, Message } from "semantic-ui-react";
+import { Container, Header, Loader, Message } from "semantic-ui-react";
 import { useGetCharacters } from "./hooks/useGetCharacters";
 import { useGetDetailsCharacter } from "./hooks/useGetDetailsCharacter";
-import type { Character } from "./types/Character";
-import CharacterCard from "./components/CharacterCard";
 import CharacterModal from "./components/CharacterModal";
+import CharactersRenderList from "./components/CharactersRenderList";
 
 function App() {
   const { loading, error, data } = useGetCharacters();
-  console.log(data);
-
   const [open, setOpen] = useState(false);
-
   const [getDetail, detailLoading, detailData] = useGetDetailsCharacter();
 
   const handleClick = (id: string) => {
     getDetail({ variables: { id } }); // Disparo la query
     setOpen(true);
   };
+  console.log(data);
 
   if (loading) <Loader active inline="centered" />;
 
@@ -33,17 +30,8 @@ function App() {
   return (
     <Container style={{ marginTop: "2em" }}>
       <Header as="h1">My first app using Apollo Client & TS</Header>
-      {}
 
-      <Card.Group>
-        {data?.characters.results.map((character: Character) => (
-          <CharacterCard
-            key={character.id}
-            character={character}
-            onClick={handleClick}
-          />
-        ))}
-      </Card.Group>
+      <CharactersRenderList data={data} onCharacterClick={handleClick} />
 
       {open && (
         <CharacterModal

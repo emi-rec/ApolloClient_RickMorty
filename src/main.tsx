@@ -1,18 +1,15 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
-import App from "./App";
-
-// Importar estilos de Semantic UI
 import "semantic-ui-css/semantic.min.css";
+import App from "./App";
 
 // 1. Configurar el cliente de Apollo
 const client = new ApolloClient({
-  uri: "https://rickandmortyapi.com/graphql", // Cambia esto por tu URL
+  uri: "https://rickandmortyapi.com/graphql",
   cache: new InMemoryCache(),
 });
 
-// 2. Renderizado estilo React 17
 ReactDOM.render(
   <React.StrictMode>
     <ApolloProvider client={client}>

@@ -1,40 +1,34 @@
 import { Modal, Image, Header, Loader } from "semantic-ui-react";
 import type { Character } from "../types/Character";
+import EpisodeTable from "./EpisodeTable";
 
 interface CharacterModalProps {
   open: boolean;
   onClose: () => void;
   loading: boolean;
-  // crear una interfaz para el detalle y ver la query de detalle que traigo!!
-  data: { character: Character };
+  data?: { character: Character };
 }
 
 function CharacterModal({ open, onClose, loading, data }: CharacterModalProps) {
-  console.log(data);
   return (
     <Modal onClose={onClose} open={open}>
       <Modal.Header>Detalle del Personaje</Modal.Header>
       <Modal.Content image>
         {loading ? (
-          <Loader active />
+          <div style={{ padding: '2em', width: '100%' }}><Loader active inline="centered" /></div>
         ) : (
           data?.character && (
             <>
               <Image size="medium" src={data.character.image} wrapped />
-              <Modal.Description>
+              <Modal.Description style={{ width: '100%', marginLeft: '1.5em' }}>
                 <Header>{data.character.name}</Header>
-                <p>
-                  <strong>Género:</strong> {data.character.gender}
-                </p>
-                <p>
-                  <strong>EPISODIOS:</strong>{" "}
-                  {data.character.episode?.map((each) => (
-                    <div key={data.character.id}>
-                      <p>{each.episode}</p>
-                      <b>{each.name}</b>
-                    </div>
-                  ))}
-                </p>
+                <p><strong>Género:</strong> {data.character.gender}</p>
+                
+                <Header as="h4">Lista de Episodios</Header>
+                {/* Si data existe pero no hay episodios, EpisodeTable 
+                   manejará el array vacío internamente.
+                */}
+                <EpisodeTable data={data.character.episode} />
               </Modal.Description>
             </>
           )
